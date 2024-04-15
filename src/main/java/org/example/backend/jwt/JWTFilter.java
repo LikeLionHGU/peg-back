@@ -16,18 +16,36 @@ import java.io.IOException;
 
 
 public class JWTFilter extends OncePerRequestFilter {
+// OncePerRequestFilter를 상속받아 JWT 필터를 구현합니다.
+// 이 필터는 각 요청마다 한 번씩 실행됩니다.
 
     private final JWTUtil jwtUtil;
 
     public JWTFilter(JWTUtil jwtUtil) {
 
         this.jwtUtil = jwtUtil;
+        // JWTUtil 객체를 주입받아 JWT 토큰을 검증하고 생성하는 데 사용합니다.
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        // OncePerRequestFilter의 doFilterInternal 메서드를 오버라이드합니다.
+        // 이 메서드는 각 요청마다 실행됩니다.
 
         //cookie들을 불러온 뒤 Authorization Key에 담긴 쿠키를 찾음
+        String requestUri = request.getRequestURI();
+
+        if (requestUri.matches("^\\/login(?:\\/.*)?$")) {
+
+            filterChain.doFilter(request, response);
+            return;
+        }
+        if (requestUri.matches("^\\/oauth2(?:\\/.*)?$")) {
+
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String authorization = null;
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
@@ -39,6 +57,8 @@ public class JWTFilter extends OncePerRequestFilter {
             }
         }
 
+        // 요청에서 "Authorization" 쿠키를 찾아 값을 가져옵니다.
+
         //Authorization 헤더 검증
         if (authorization == null) {
 
@@ -48,6 +68,8 @@ public class JWTFilter extends OncePerRequestFilter {
             //조건이 해당되면 메소드 종료 (필수)
             return;
         }
+
+        // "Authorization" 쿠키가 없으면 다음 필터로 이동합니다.
 
         //토큰
         String token = authorization;
@@ -62,6 +84,8 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
 
+        //JWT 토큰이 만료되었는지 확인하고, 만료되었으면 다음 필터로 이동합니다.
+
         //토큰에서 username과 role 획득
         String username = jwtUtil.getUsername(token);
         String role = jwtUtil.getRole(token);
@@ -73,6 +97,8 @@ public class JWTFilter extends OncePerRequestFilter {
 
         //UserDetails에 회원 정보 객체 담기
         CustomOAuth2User customOAuth2User = new CustomOAuth2User(userDTO);
+        //JWT 토큰에서 사용자 이름과 역할을 가져와
+        // UserDTO와 CustomOAuth2User 객체를 생성합니다.
 
         //스프링 시큐리티 인증 토큰 생성
         Authentication authToken = new UsernamePasswordAuthenticationToken(customOAuth2User, null, customOAuth2User.getAuthorities());

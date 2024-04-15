@@ -72,9 +72,8 @@ public class SecurityConfig {
                 .httpBasic((auth) -> auth.disable());
 
         //JWTFilter 추가
-        //JWTFilter 추가
-        http
-                .addFilterAfter(new JWTFilter(jwtUtil), OAuth2LoginAuthenticationFilter.class);
+//        http
+//                .addFilterAfter(new JWTFilter(jwtUtil), OAuth2LoginAuthenticationFilter.class);
 
 
         //oauth2

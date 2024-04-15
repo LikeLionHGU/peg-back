@@ -19,7 +19,7 @@ public class CustomOAuth2User implements OAuth2User {
     public Map<String, Object> getAttributes() {
         return null;
     }
-
+    // null을 반환하므로 이 구현체에서는 OAuth2 사용자의 속성을 제공하지 않습니다.
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
@@ -36,6 +36,8 @@ public class CustomOAuth2User implements OAuth2User {
         return collection;
 
     }
+    //  GrantedAuthority 객체의 컬렉션을 반환합니다. 여기서는 익명 클래스 구현을 사용하여 새로운 GrantedAuthority 객체를 생성하고,
+    //  권한은 UserDTO 객체의 role 속성으로 설정됩니다.
 
     @Override
     public String getName() {
