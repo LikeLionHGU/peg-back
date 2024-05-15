@@ -29,9 +29,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         // 상위 클래스의 loadUser 메서드를 호출하여 OAuth2User 객체를 가져오고, 콘솔에 출력합니다.
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        OAuth2Response oAuth2Response = null;
-        if(registrationId.equals("naver")) {
+        // 네이버인지 구글인지 알아오는 변수
 
+        OAuth2Response oAuth2Response = null;
+
+        if(registrationId.equals("naver")) {
+        // 네이버는 네이버대로 인증데이터를 받아야하고 , 구글은 구글대로 인증데이터를 받아야 한다.
             oAuth2Response = new NaverResponse(oAuth2User.getAttributes());
         }
 
