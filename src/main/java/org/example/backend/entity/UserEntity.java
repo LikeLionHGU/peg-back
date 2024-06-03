@@ -1,15 +1,14 @@
 package org.example.backend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
-@Getter
 @Setter
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserEntity extends BaseTime {
 
     @Id
@@ -25,5 +24,11 @@ public class UserEntity extends BaseTime {
     private String email;
 
     private String role;
+
+    private String profilePictureUrl;  // 프로필 사진 링크 필드 추가
+
+    private String todayPeg;
+
+
 
 }
