@@ -44,6 +44,42 @@ public class TestService {
         return subjectiveTest.getSubjectiveTestId();
     }
 
+    public int getOXTestResult(Long userId){
+        int oxResult;
+        UserEntity userEntity =
+                userEntityRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        if(oxTestRepository.findOXTestByUserEntity(userEntity) == null)
+            oxResult = -1;
+        else { OXTest oxTest = oxTestRepository.findOXTestByUserEntity(userEntity);
+            oxResult = TestDto.fromToResult(oxTest);
+        }
+        return oxResult;
+    }
+
+    public String getMultipleTestResult(Long userId) {
+        String multipleResult;
+        UserEntity userEntity =
+                userEntityRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        if( multipleChoiceTestRepository.findMultipleChoiceTestByUserEntity(userEntity) == null )
+            multipleResult = "null";
+        else { MultipleChoiceTest multipleChoiceTest = multipleChoiceTestRepository.findMultipleChoiceTestByUserEntity(userEntity);
+            multipleResult = TestDto.fromToResult(multipleChoiceTest);
+        }
+        return multipleResult;
+    }
+
+    public String getSubjectiveResult(Long userId) {
+        String subjectiveResult;
+        UserEntity userEntity =
+                userEntityRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        if( subjectiveTestRepository.findSubjectiveTestByUserEntity(userEntity) == null )
+            subjectiveResult = "null";
+        else { MultipleChoiceTest multipleChoiceTest = multipleChoiceTestRepository.findMultipleChoiceTestByUserEntity(userEntity);
+            subjectiveResult = "not null";
+        }
+        return subjectiveResult;
+    }
+
     public TestDto getOXTest(Long userId) {
 
         UserEntity userEntity =
@@ -66,6 +102,7 @@ public class TestService {
         SubjectiveTest subjectiveTest = subjectiveTestRepository.findSubjectiveTestByUserEntity(userEntity);
         return TestDto.from(subjectiveTest);
     }
+
 
     public void deleteOXTest(Long userId) {
         UserEntity userEntity =
@@ -114,4 +151,7 @@ public class TestService {
         subjectiveTest.update(testDto);
         subjectiveTestRepository.save(subjectiveTest);
     }
+
+
+
 }

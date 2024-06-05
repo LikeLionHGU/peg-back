@@ -9,6 +9,9 @@ import org.example.backend.controller.form.TestForm;
 import org.example.backend.entity.MultipleChoiceTest;
 import org.example.backend.entity.OXTest;
 import org.example.backend.entity.SubjectiveTest;
+import java.lang.reflect.Method;
+
+import java.lang.reflect.Method;
 
 @Builder
 @Getter
@@ -89,4 +92,66 @@ public class TestDto {
                 .build();
     }
 
+
+
+    public static int fromToResult(OXTest oxTest) {
+        int result = 0;
+        try {
+            for (int i = 1; i <= 10; i++) {
+                Method method = oxTest.getClass().getMethod("getField" + i);
+                String value = (String) method.invoke(oxTest);
+                if ("O".equals(value)) {
+                    result += 1;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
+
+
+    public static String fromToResult(MultipleChoiceTest multipleChoiceTest) {
+        int[] results = new int[4];
+
+        String[] fields = {
+                multipleChoiceTest.getField1(),
+                multipleChoiceTest.getField2(),
+                multipleChoiceTest.getField3(),
+                multipleChoiceTest.getField4(),
+                multipleChoiceTest.getField5()
+        };
+
+        for (String field : fields) {
+            int value = Integer.parseInt(field) - 1;
+            if (value >= 0 && value < 4) {
+                results[value] += 1;
+            }
+        }
+
+        // 가장 큰 결과값을 가진 인덱스 찾기
+        int maxIndex = 0;
+        for (int i = 1; i < results.length; i++) {
+            if (results[i] > results[maxIndex]) {
+                maxIndex = i;
+            }
+        }
+
+        // 인덱스에 따라 문자열 반환
+        switch (maxIndex) {
+            case 0:
+                return "result1";
+            case 1:
+                return "result2";
+            case 2:
+                return "result3";
+            case 3:
+                return "result4";
+            default:
+                throw new IllegalStateException("Unexpected value: " + maxIndex);
+        }
+    }
+
+
+
+}

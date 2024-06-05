@@ -10,7 +10,7 @@ public class Test01 {
         Long userId = 12345L;
         String username = "user";
         String role = "ROLE_USER";
-        Long expirationTime = 1000 * 60 * 10L; // 10분 유효
+        Long expirationTime = 1000 * 600 * 10L;
 
         String token = jwtUtil.createJwt(userId, username, role, expirationTime);
         System.out.println("Generated JWT Token: " + token);

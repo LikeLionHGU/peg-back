@@ -30,4 +30,5 @@ public class UserResponse extends ApiResponse{
         this.profilePictureUrl = userDTO.getProfilePictureUrl();
         this.todayPeg = userDTO.getTodayPeg();
     }
+
 }
