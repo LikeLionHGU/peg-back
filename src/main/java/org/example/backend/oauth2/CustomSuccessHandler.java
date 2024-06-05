@@ -42,7 +42,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         // Authentication 객체에서 사용자의 역할(권한)을 가져옵니다.
 
-        String token = jwtUtil.createJwt(id,username, role, 1000*60*60L);
+        String token = jwtUtil.createJwt(id,username, role, 1000*60*60*6L);
 
         // JWTUtil을 사용하여 JWT 토큰을 생성합니다. 토큰에는 사용자 이름, 역할 및 1시간의 유효 기간이 포함됩니다.
 
