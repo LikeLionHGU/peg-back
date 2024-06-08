@@ -25,7 +25,7 @@ public class UserEntity extends BaseTime {
 
     private String role;
 
-    @Column(length = 4096)
+    @Lob
     private String profilePictureUrl;  // 프로필 사진 링크 필드 추가
 
     private String todayPeg;
