@@ -1,5 +1,8 @@
 package org.example.backend.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import org.example.backend.controller.response.ApiResponse;
 import org.example.backend.controller.response.TestResultResponse;
@@ -77,5 +80,21 @@ public class MypageController {
 
   }
 
+
+  @GetMapping("/logout")
+  public String logout(HttpServletRequest request, HttpServletResponse response) {
+    Cookie[] cookies = request.getCookies();
+    if (cookies != null) {
+      for (Cookie cookie : cookies) {
+        if (cookie.getName().equals("authentication")) {
+          cookie.setValue("");
+          cookie.setMaxAge(0); // 브라우저 종료 시 쿠키 삭제
+          cookie.setPath("/"); // 전체 경로에서 쿠키 삭제
+          response.addCookie(cookie);
+        }
+      }
+    }
+    return "로그아웃 되었습니다."; // 로그아웃 후 리디렉션 할 페이지
+  }
 
 }
