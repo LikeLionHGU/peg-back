@@ -47,7 +47,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // JWTUtil을 사용하여 JWT 토큰을 생성합니다. 토큰에는 사용자 이름, 역할 및 1시간의 유효 기간이 포함됩니다.
 
         response.addCookie(createCookie("Authorization", token));
-        response.sendRedirect("http://localhost:3000/profile/haeoii");
+        response.sendRedirect("http://localhost:3000/mypage");
 
         // Authorization 쿠키에 JWT 토큰을 저장하고, 클라이언트를 http://localhost:3000/으로 리디렉션합니다.
 
